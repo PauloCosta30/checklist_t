@@ -8,8 +8,8 @@ import os
 
 class Config:
     # ── TELEGRAM ──
-    TELEGRAM_TOKEN: str = os.getenv("TELEGRAM_TOKEN", "")
-    TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "")
+    TELEGRAM_TOKEN: str = os.getenv("TELEGRAM_TOKEN", "TELEGRAM_TOKEN")
+    TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "TELEGRAM_CHAT_ID")
 
     # ── MONITOR ──
     # Intervalo entre scans (minutos) — recomendado 15 no Render free
