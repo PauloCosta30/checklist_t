@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspeção Diária - Concentração de Oxigênio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0d5f7f;
+        }
+
+        .logo {
+            width: 120px;
+            height: 60px;
+            background-color: #0d5f7f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .header-title h1 {
+            font-size: 18px;
+            color: #0d5f7f;
+            margin-bottom: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            color: #333;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .section-title {
+            background-color: #0d5f7f;
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 20px 0 15px 0;
+            border-radius: 3px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .signature-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #0d5f7f;
+        }
+
+        .signature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .signature-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 80px;
+            border-radius: 3px;
+        }
+
+        .signature-box label {
+            font-size: 11px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .signature-line {
+            margin-top: 50px;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #0d5f7f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #094b63;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .buttons {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="formulario">
+        <div class="header">
+            <div class="logo">
+                LOGO EMPRESA
+            </div>
+            <div class="header-title">
+                <h1>Inspeção diária de verificação da concentração de oxigênio no ambiente</h1>
+                <p class="subtitle">Permissão 009596</p>
+            </div>
+        </div>
+
+        <div class="section-title">O DETECTOR PASSOU NO BUMP TEST ? [  ] SIM  [  ] NÃO</div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Equipamento da inspeção inicial:</label>
+                <input type="text" name="equipamento_inicial" placeholder="Modelo e Nr MAX XT II">
+            </div>
+            <div class="form-group">
+                <label>Equipamento da inspeção final:</label>
+                <input type="text" name="equipamento_final" placeholder="Modelo e Nr MAX XT II">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Calibração da inspeção inicial:</label>
+                <input type="date" name="calibracao_inicial">
+            </div>
+            <div class="form-group">
+                <label>Calibração da inspeção final:</label>
+                <input type="date" name="calibracao_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cilindro usado na inspeção inicial:</label>
+                <input type="text" name="cilindro_inicial" placeholder="Teor (concentração) [19,5% e 23%]">
+            </div>
+            <div class="form-group">
+                <label>Cilindro usado na inspeção final:</label>
+                <input type="text" name="cilindro_final" placeholder="Teor (concentração) [19,5% e 23%]">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Capacidade (vol) da área restrita com atmosfera deficiente em oxigênio no início da tarefa (9,7 m x 3,2 m x 2,2m):</label>
+                <input type="text" name="capacidade_inicial" placeholder="m³">
+            </div>
+            <div class="form-group">
+                <label>Capacidade (vol) da área restrita com atmosfera deficiente em oxigênio no final da tarefa (9,7 m x 3,2 m x 2,2m):</label>
+                <input type="text" name="capacidade_final" placeholder="m³">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Concentração do gás de modo a completar o teor exigido de oxigênio (19,5% e 23%):</label>
+                <input type="text" name="concentracao_inicial" placeholder="%">
+            </div>
+            <div class="form-group">
+                <label>Concentração do gás de modo a completar o teor exigido de oxigênio (19,5% e 23%):</label>
+                <input type="text" name="concentracao_final" placeholder="%">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Intervalo de leitura entre cada concentração de oxigênio (periodo: frequência agir/conferir/medir/verificar):</label>
+                <input type="text" name="intervalo_inicial">
+            </div>
+            <div class="form-group">
+                <label>Intervalo de leitura entre cada concentração de oxigênio (periodo: frequência agir/conferir/medir/verificar):</label>
+                <input type="text" name="intervalo_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Capacidade do cilindro restrito com atmosfera deficiente em oxigênio (Vol):</label>
+                <input type="text" name="capacidade_cilindro_inicial" placeholder="litros">
+            </div>
+            <div class="form-group">
+                <label>Capacidade do cilindro restrito com atmosfera deficiente em oxigênio (Vol):</label>
+                <input type="text" name="capacidade_cilindro_final" placeholder="litros">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Concentração do gás restrito/verificada em campo (19,5% a 23%):</label>
+                <input type="text" name="concentracao_campo_inicial" placeholder="%">
+            </div>
+            <div class="form-group">
+                <label>Concentração do gás restrito/verificada em campo (19,5% a 23%):</label>
+                <input type="text" name="concentracao_campo_final" placeholder="%">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Área de acesso a perímetro:</label>
+                <select name="area_perimetro_inicial">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Área de acesso a perímetro:</label>
+                <select name="area_perimetro_final">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Ambiente restrito por perímetro:</label>
+                <select name="ambiente_perimetro_inicial">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ambiente restrito por perímetro:</label>
+                <select name="ambiente_perimetro_final">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Sinal:</label>
+                <input type="text" name="sinal_inicial">
+            </div>
+            <div class="form-group">
+                <label>Sinal:</label>
+                <input type="text" name="sinal_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Sinal:</label>
+                <input type="text" name="sinal2_inicial">
+            </div>
+            <div class="form-group">
+                <label>Sinal:</label>
+                <input type="text" name="sinal2_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Data:</label>
+                <input type="date" name="data_inicial">
+            </div>
+            <div class="form-group">
+                <label>Data:</label>
+                <input type="date" name="data_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Horário de início:</label>
+                <input type="time" name="horario_inicio_inicial">
+            </div>
+            <div class="form-group">
+                <label>Horário de início:</label>
+                <input type="time" name="horario_inicio_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Horário de término:</label>
+                <input type="time" name="horario_termino_inicial">
+            </div>
+            <div class="form-group">
+                <label>Horário de término:</label>
+                <input type="time" name="horario_termino_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Trabalhadores especial:</label>
+                <input type="text" name="trabalhadores_inicial">
+            </div>
+            <div class="form-group">
+                <label>Trabalhadores especial:</label>
+                <input type="text" name="trabalhadores_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Quem fiscaliza:</label>
+                <input type="text" name="fiscalizador_inicial">
+            </div>
+            <div class="form-group">
+                <label>Quem fiscaliza:</label>
+                <input type="text" name="fiscalizador_final">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label>Observações:</label>
+                <textarea name="observacoes" rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-row">
+                <div class="signature-box">
+                    <label>Por favor de assinatura e carimbos (NR-1):</label>
+                    <div class="signature-line">Assinatura do Trabalhador</div>
+                </div>
+                <div class="signature-box">
+                    <label>Por favor de assinatura e carimbos (NR-1):</label>
+                    <div class="signature-line">Assinatura do Trabalhador</div>
+                </div>
+            </div>
+            <div class="signature-row">
+                <div class="signature-box">
+                    <label>Nome:</label>
+                    <input type="text" name="nome_trabalhador_1" style="width: 100%; margin-top: 10px;">
+                </div>
+                <div class="signature-box">
+                    <label>Nome:</label>
+                    <input type="text" name="nome_trabalhador_2" style="width: 100%; margin-top: 10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-primary" onclick="exportarPDF()">Exportar PDF</button>
+        <button class="btn btn-secondary" onclick="limparFormulario()">Limpar Formulário</button>
+    </div>
+
+    <script>
+        function exportarPDF() {
+            const element = document.getElementById('formulario');
+            const opt = {
+                margin: 10,
+                filename: 'inspecao-oxigenio-' + new Date().toISOString().split('T')[0] + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function limparFormulario() {
+            if (confirm('Tem certeza que deseja limpar todos os campos?')) {
+                document.querySelectorAll('input, select, textarea').forEach(element => {
+                    if (element.type === 'checkbox' || element.type === 'radio') {
+                        element.checked = false;
+                    } else {
+                        element.value = '';
+                    }
+                });
+            }
+        }
+
+        // Salvar dados no localStorage ao preencher
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('change', function() {
+                localStorage.setItem(this.name, this.value);
+            });
+
+            // Restaurar dados salvos
+            if (element.name && localStorage.getItem(element.name)) {
+                element.value = localStorage.getItem(element.name);
+            }
+        });
+    </script>
+</body>
+</html>
