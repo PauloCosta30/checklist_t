@@ -1,0 +1,9 @@
+# 💥 Erro de Preço Bot — Dependências
+python-telegram-bot==21.9
+APScheduler==3.10.4
+aiohttp==3.10.5
+beautifulsoup4==4.12.3
+requests==2.32.3
+flask==3.1.0
+lxml==5.3.0
+gunicorn==23.0.0
