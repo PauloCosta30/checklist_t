@@ -75,7 +75,7 @@ async def cmd_categorias(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "💄 MAC, Urban Decay, Lancôme, Charlotte Tilbury\n"
         "👕 Polo Ralph Lauren, Lacoste, Reserva, Tommy\n"
         "🧥 Calças, Jaquetas, Moletons — Levi's, Nike, Adidas\n\n"
-        "🧴 Cosméticos — CeraVe, La Roche, Kerastase, Wella, Oral-B\n\n"
+        "🧴 Cosméticos — CeraVe, La Roche, Kerastase, Wella, Oral-B, Eucerin\n\n"
         "🔍 Lojas: Mercado Livre, Amazon BR, Shopee"
     )
     await update.message.reply_text(msg, parse_mode="HTML")
